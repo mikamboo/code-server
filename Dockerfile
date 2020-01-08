@@ -40,9 +40,9 @@ RUN adduser --gecos '' --disabled-password devops && \
 
 USER devops
 # We create first instead of just using WORKDIR as when WORKDIR creates, the user is root.
-RUN mkdir -p /home/devops/project && \
-    chgrp -R 0  /home/devops && \
-    chmod -R g=u /home/devops
+RUN mkdir -p /home/devops/work && \
+    chgrp -R 0  /home/devops/work && \
+    chmod -R g=u /home/devops/work
 
 WORKDIR /home/devops/project
 
