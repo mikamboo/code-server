@@ -4,9 +4,9 @@ LABEL Name=Devbox Image=Ubuntu Ide=CodeServer
 
 USER root
 
-RUN apt-get update && apt-get install python3-pip unzip -y && \
+RUN apt-get update && apt-get install python3-pip unzip ansible -y && \
     # TOOL 1 : AWSCLI + ANSIBLE
-    pip3 install awscli ansible
+    pip3 install awscli
 
     # TOOL 2 : KUBECTL
 RUN KUBECTL_BIN=kubectl && \
@@ -41,10 +41,13 @@ RUN adduser --gecos '' --disabled-password devops && \
 USER devops
 # We create first instead of just using WORKDIR as when WORKDIR creates, the user is root.
 RUN mkdir -p /home/devops/work && \
-    chgrp -R 0  /home/devops/work && \
-    chmod -R g=u /home/devops/work
+    chgrp -R 0  /home/devops/work 
+    
+USER root    
 
-WORKDIR /home/devops/project
+RUN chmod -R g=u /home/devops/work
+
+WORKDIR /home/devops/work
 
 # Enable authentication (require PASSWORD env variable)
 CMD ["code-server --auth password"]
